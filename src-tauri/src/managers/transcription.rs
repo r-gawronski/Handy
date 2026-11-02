@@ -10,10 +10,10 @@ use crate::engine_supervisor::{
 };
 use crate::language_detection::speech::speech_head;
 use crate::language_detection::{
-    IdentifyError, LanguageDecision, LanguageDetector, LanguageSource, Plan,
+    DetectFallback, IdentifyError, LanguageDecision, LanguageDetector, LanguageSource, Plan,
 };
 use crate::managers::audio::{create_smoothed_detector, AudioRecordingManager};
-use crate::managers::model::ModelManager;
+use crate::managers::model::{canonical_language_code, ModelManager};
 use crate::notices::{self, Notice, NoticeCode, NoticeSource};
 use crate::overlay;
 use crate::settings::{
@@ -1050,14 +1050,64 @@ impl TranscriptionManager {
         // included) stops every run of this transcription.
         let mark = self.engine.cancel_mark();
         self.touch_activity();
-        let batch = self.batch_context(&audio)?;
-        self.transcribe_cpp(mark, batch, audio)
+        let (info, settings, active_model, plan) = self.batch_plan()?;
+        // LOCAL PATCH: the acoustic detector hears accented English as the
+        // speaker's native language, and a forced hint then translates it.
+        // A model that detects languages itself is trusted when it lands on a
+        // spoken language; the detector only rescues the rest.
+        if let Plan::Detect {
+            languages,
+            fallback: DetectFallback::Native,
+            ..
+        } = &plan
+        {
+            let native = BatchContext {
+                setup: self.setup_for(&info, &settings, &Plan::Native, &audio),
+                info: info.clone(),
+                settings: settings.clone(),
+                active_model: active_model.clone(),
+            };
+            let outcome = self.transcribe_cpp(mark, native, audio.clone())?;
+            let detected = outcome.model_detected_language.clone();
+            if detected.as_deref().is_some_and(|d| {
+                languages
+                    .iter()
+                    .any(|l| canonical_language_code(l) == canonical_language_code(d))
+            }) {
+                return Ok(outcome);
+            }
+            info!("Model detected {detected:?}, not one of {languages:?}; using the detector");
+        }
+        let setup = self.setup_for(&info, &settings, &plan, &audio);
+        self.transcribe_cpp(
+            mark,
+            BatchContext {
+                info,
+                settings,
+                active_model,
+                setup,
+            },
+            audio,
+        )
     }
 
     /// Waits out any model load, then reads what a batch transcription of
     /// `audio` runs with: the loaded model, the settings, and the language
     /// resolved for it.
     fn batch_context(&self, audio: &[f32]) -> Result<BatchContext> {
+        let (info, settings, active_model, plan) = self.batch_plan()?;
+        let setup = self.setup_for(&info, &settings, &plan, audio);
+        Ok(BatchContext {
+            info,
+            settings,
+            active_model,
+            setup,
+        })
+    }
+
+    /// Waits out any model load, then reads the loaded model, the settings
+    /// and the language plan a batch transcription runs with.
+    fn batch_plan(&self) -> Result<(LoadedInfo, AppSettings, String, Plan)> {
         {
             let mut is_loading = self.is_loading.lock().unwrap();
             while *is_loading {
@@ -1077,13 +1127,7 @@ impl TranscriptionManager {
             .get_current_model()
             .unwrap_or_else(|| settings.selected_model.clone());
         let plan = self.language_plan(&settings, &active_model, &info);
-        let setup = self.setup_for(&info, &settings, &plan, audio);
-        Ok(BatchContext {
-            info,
-            settings,
-            active_model,
-            setup,
-        })
+        Ok((info, settings, active_model, plan))
     }
 
     /// How a transcription on `model_id` picks its language, decided before
