@@ -558,6 +558,10 @@
           "ctrlEnter": "Ctrl+Enter"
         }
       },
+      "asciiOutput": {
+        "label": "Usuń polskie znaki",
+        "description": "Zamienia polskie i inne litery z akcentami (ą, ł, ż…) oraz typograficzne cudzysłowy i myślniki na zwykłe znaki ASCII we wklejanym tekście. Przydatne w aplikacjach i grach, których czcionki wyświetlają je jako kwadraty. Historia zachowuje oryginalny tekst."
+      },
       "translateToEnglish": {
         "label": "Tłumacz na angielski",
         "description": "Automatycznie tłumacz mowę z innych języków na angielski podczas transkrypcji."

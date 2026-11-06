@@ -558,6 +558,10 @@
           "ctrlEnter": "Ctrl+Enter"
         }
       },
+      "asciiOutput": {
+        "label": "Sonderzeichen entfernen",
+        "description": "Ersetzt polnische und andere Buchstaben mit Akzenten (ą, ł, ż…) sowie typografische Anführungszeichen/Striche im eingefügten Text durch einfaches ASCII. Für Apps oder Spiele, deren Schriftarten sie als Kästchen anzeigen. Der Verlauf behält den Originaltext."
+      },
       "translateToEnglish": {
         "label": "Ins Englische übersetzen",
         "description": "Sprache aus anderen Sprachen automatisch während der Transkription ins Englische übersetzen."

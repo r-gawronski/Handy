@@ -558,6 +558,10 @@
           "ctrlEnter": "Ctrl+Invio"
         }
       },
+      "asciiOutput": {
+        "label": "Rimuovi caratteri speciali",
+        "description": "Sostituisce le lettere polacche e altre lettere accentate (ą, ł, ż…) e le virgolette/trattini tipografici con ASCII semplice nel testo incollato. Utile per app o giochi i cui font li mostrano come quadratini. La cronologia conserva il testo originale."
+      },
       "translateToEnglish": {
         "label": "Traduci in inglese",
         "description": "Traduci automaticamente in inglese la voce in altre lingue durante la trascrizione."

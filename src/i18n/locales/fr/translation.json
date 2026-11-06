@@ -558,6 +558,10 @@
           "ctrlEnter": "Ctrl+Entrée"
         }
       },
+      "asciiOutput": {
+        "label": "Supprimer les caractères spéciaux",
+        "description": "Remplace les lettres polonaises et autres lettres accentuées (ą, ł, ż…) ainsi que les guillemets/tirets typographiques par de l'ASCII simple dans le texte collé. Utile pour les apps ou jeux dont les polices les affichent comme des carrés. L'historique conserve le texte original."
+      },
       "translateToEnglish": {
         "label": "Traduire en anglais",
         "description": "Traduire automatiquement la parole d'autres langues vers l'anglais pendant la transcription."

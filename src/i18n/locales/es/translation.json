@@ -558,6 +558,10 @@
           "ctrlEnter": "Ctrl+Intro"
         }
       },
+      "asciiOutput": {
+        "label": "Quitar caracteres especiales",
+        "description": "Sustituye las letras polacas y otras con acentos (ą, ł, ż…) y las comillas/rayas tipográficas por ASCII simple en el texto pegado. Útil en apps o juegos cuyas fuentes las muestran como cuadros. El historial conserva el texto original."
+      },
       "translateToEnglish": {
         "label": "Traducir al inglés",
         "description": "Traducir automáticamente el habla de otros idiomas al inglés durante la transcripción."

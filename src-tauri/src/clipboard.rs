@@ -803,6 +803,13 @@ pub fn paste(text: String, app_handle: AppHandle) -> Result<(), String> {
     let paste_delay_ms = settings.paste_delay_ms;
     let paste_delay_after_ms = settings.paste_delay_after_ms;
 
+    // Fold Polish/accented letters to ASCII for apps whose fonts lack them
+    let text = if settings.ascii_output {
+        crate::ascii_output::fold_to_ascii(&text)
+    } else {
+        text
+    };
+
     // Append trailing space if setting is enabled
     let text = if settings.append_trailing_space {
         format!("{} ", text)
