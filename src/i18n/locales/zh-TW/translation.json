@@ -558,6 +558,10 @@
           "ctrlEnter": "Ctrl+Enter"
         }
       },
+      "asciiOutput": {
+        "label": "Remove Polish Characters",
+        "description": "Replace Polish and other accented letters (ą, ł, ż…) and typographic quotes/dashes with plain ASCII in pasted text. Use for apps or games whose fonts show them as boxes. History keeps the original text."
+      },
       "translateToEnglish": {
         "label": "翻譯為英語",
         "description": "在轉錄過程中自動將其他語言的語音翻譯為英語"

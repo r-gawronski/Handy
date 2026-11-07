@@ -558,6 +558,10 @@
           "ctrlEnter": "Ctrl+Enter"
         }
       },
+      "asciiOutput": {
+        "label": "Remover caracteres especiais",
+        "description": "Substitui letras polonesas e outras acentuadas (ą, ł, ż…) e aspas/travessões tipográficos por ASCII simples no texto colado. Útil para apps ou jogos cujas fontes os mostram como quadrados. O histórico mantém o texto original."
+      },
       "translateToEnglish": {
         "label": "Traduzir para Inglês",
         "description": "Traduzir automaticamente fala de outros idiomas para inglês durante a transcrição."

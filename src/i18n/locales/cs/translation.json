@@ -558,6 +558,10 @@
           "ctrlEnter": "Ctrl+Enter"
         }
       },
+      "asciiOutput": {
+        "label": "Odstranit diakritiku",
+        "description": "Nahradí polská a jiná písmena s diakritikou (ą, ł, ż…) a typografické uvozovky/pomlčky ve vloženém textu prostým ASCII. Pro aplikace nebo hry, jejichž písma je zobrazují jako čtverečky. Historie zachovává původní text."
+      },
       "translateToEnglish": {
         "label": "Překládat do angličtiny",
         "description": "Během přepisu automaticky překládat řeč z jiných jazyků do angličtiny."
